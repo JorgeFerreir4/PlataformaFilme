@@ -30,6 +30,7 @@ interface ImportMetaEnv {
   readonly ANTIGRAVITY_CLI_ALIAS?: string;
   readonly HOME?: string;
   readonly CHROME_DESKTOP?: string;
+  readonly OLDPWD?: string;
   readonly TERM_PROGRAM_VERSION?: string;
   readonly DESKTOP_SESSION?: string;
   readonly NVM_BIN?: string;

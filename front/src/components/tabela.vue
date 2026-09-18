@@ -15,6 +15,7 @@
       row-key="id"
       style="width: 1200px;"
       v-model:pagination="paginacao"
+      @request="RequestTabela"
     >
       <template v-slot:body-cell-capa="props">
 
@@ -119,6 +120,9 @@ function filtrarFilmes(rows, terms, cols, getCellValue) {
     row.titulo.toLowerCase().includes(texto)
   )
 }
+function RequestTabela(props){
+  console.log('request: ',props)
+}
 
 
 const columns = [
@@ -165,5 +169,4 @@ const columns = [
   },
 
 ]
-
 </script>
