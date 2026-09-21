@@ -107,6 +107,6 @@ Este projeto está sendo desenvolvido como forma de aprendizado, com o objetivo 
 
 ## 👨‍💻 Autor
 
-**Jorge Ferreira**
+**Jorge Ferreira da Silva Júnior**
 
 Estudante de Ciência da Computação na UFMG.
