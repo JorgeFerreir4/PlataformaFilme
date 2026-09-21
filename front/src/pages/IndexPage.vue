@@ -121,18 +121,22 @@ const anos = Array.from(
 )
 
 const generos =  ref(null)
-
-
-
-async function buscarFilmes() {
-  const response = await api.get('/filmes')
-  filmes.value = response.data
-
-}
+const paginacao = ref(null)
 
 onMounted(() => {
   buscarFilmes()
 })
+
+async function buscarFilmes() {
+  try {
+  const response = await api.get('/filmes')
+  filmes.value = response.data
+
+} catch (error) {
+  console.log("Erro ao buscar filmes: ",error)
+  console.log(error.response?.data)
+}}
+
 
 async function EnviarFilme(dados){
 
