@@ -1,0 +1,16 @@
+# Laravel
+beck/.env
+beck/vendor/
+beck/storage/*.key
+
+# Frontend
+front/node_modules/
+front/.quasar/
+
+# IDE / sistema
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
