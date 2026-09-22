@@ -1,5 +1,6 @@
 <template>
- <q-dialog v-model="prosp.OpenDialogDelete" persistent>
+ <q-dialog v-model="prosp.OpenDialogDelete" persistent
+ backdrop-filter='blur(10px)'>
     <q-card>
       <q-card-section class="row items-center">
         <span class="q-ml-sm"

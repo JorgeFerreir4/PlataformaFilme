@@ -14,7 +14,7 @@ class FilmeController extends Controller
     public function index()
     {
         // Busca todos os filmes no banco
-        $filmes = Filme::select(['id', 'titulo', 'diretor', 'ano', 'genero', 'sinopse', 'capa'])->limit(5)->get();
+        $filmes = Filme::select(['id', 'titulo', 'diretor', 'ano', 'genero', 'sinopse', 'capa'])->paginate(15);
         foreach($filmes as $filme){
             $filme->hashid = app('hashids')->encode($filme->id);
             unset($filme->id);
@@ -145,7 +145,7 @@ class FilmeController extends Controller
 
         });
     })
-    ->orderBy('ano', 'desc')->paginate(5);
+    ->orderBy('ano', 'desc')->paginate(15);
 
 
     foreach($filmes as $filme){

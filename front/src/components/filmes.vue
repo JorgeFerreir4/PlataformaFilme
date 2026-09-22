@@ -1,6 +1,6 @@
 
 <template>
-  <q-page class="q-pa-lg bg-black">
+
 
     <div class="text-h4 text-weight-bold text-white q-mb-lg">
       Filmes
@@ -51,9 +51,7 @@
         </q-card>
       </div>
 
-    </div>
-
-  </q-page>
+    </div>yy
 </template>
 
 <script setup>
@@ -69,7 +67,7 @@ const props = defineProps({
     default: ''
   }
 })
-
+console.log(props.filmes)
 
 function editarFilme(filme) {
   console.log('Editar:', filme)

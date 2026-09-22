@@ -1,0 +1,32 @@
+[1mdiff --git a/front/src/pages/IndexPage.vue b/front/src/pages/IndexPage.vue[m
+[1mindex d4b242f8..b510b250 100644[m
+[1m--- a/front/src/pages/IndexPage.vue[m
+[1m+++ b/front/src/pages/IndexPage.vue[m
+[36m@@ -121,22 +121,18 @@[m [mconst anos = Array.from([m
+ )[m
+ [m
+ const generos =  ref(null)[m
+[31m-const paginacao = ref(null)[m
+ [m
+[31m-onMounted(() => {[m
+[31m-  buscarFilmes()[m
+[31m-})[m
+[32m+[m
+ [m
+ async function buscarFilmes() {[m
+[31m-  try {[m
+   const response = await api.get('/filmes')[m
+   filmes.value = response.data[m
+ [m
+[31m-} catch (error) {[m
+[31m-  console.log("Erro ao buscar filmes: ",error)[m
+[31m-  console.log(error.response?.data)[m
+[31m-}}[m
+[32m+[m[32m}[m
+ [m
+[32m+[m[32monMounted(() => {[m
+[32m+[m[32m  buscarFilmes()[m
+[32m+[m[32m})[m
+ [m
+ async function EnviarFilme(dados){[m
+ [m

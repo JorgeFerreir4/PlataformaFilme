@@ -1,5 +1,10 @@
 <template>
-<q-dialog v-model="props.dialogprop">
+<q-dialog 
+  v-model="props.dialogprop"
+  backdrop-filter='blur(10px)'
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  transition-duration="400">
 
   <q-card
   class="bg-grey-10"
@@ -31,6 +36,12 @@
             <q-img
               :src="`http://localhost/storage/${props.filmeselect.capa}`"
               class="rounded-borders"
+            />
+
+             <q-img v-if="props.filmeselect.capa"
+              :src="o"
+              class="rounded-borders"
+              error-src ='http://localhost/storage/holdplace.jpeg'
             />
           </div>
         </div>

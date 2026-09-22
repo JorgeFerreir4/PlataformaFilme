@@ -1,5 +1,6 @@
 <template>
-<q-dialog v-model="props.dialog" persistent>
+<q-dialog v-model="props.dialog" persistent
+backdrop-filter='blur(10px)'>
 
   <q-card style="min-width:500px">
 
