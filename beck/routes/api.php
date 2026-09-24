@@ -1,9 +1,9 @@
 <?php
 
-Route::get('/filmes', [FilmeController::class, 'index']);
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmeController;
+use App\Http\Controllers\AuthController;
 
 
 
@@ -27,3 +27,5 @@ Route::put('/filmes/{hashid}', [FilmeController::class, 'update']);
 Route::delete('/filmes/{hashid}', [FilmeController::class, 'destroy']);
 
 Route::post('/filmes/filtro', [FilmeController::class, 'filtrar']);
+
+Route::post('login', [AuthController::class, 'login']);

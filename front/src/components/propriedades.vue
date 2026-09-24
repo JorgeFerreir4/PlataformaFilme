@@ -33,13 +33,14 @@
         <div class="col-4">
 
           <div class="q-pa-sm">
-            <q-img
+            <!--<q-img
               :src="`http://localhost/storage/${props.filmeselect.capa}`"
-              class="rounded-borders"
-            />
+                class="rounded-borders"
+              />
+            -->
 
              <q-img v-if="props.filmeselect.capa"
-              :src="o"
+              :src="props.filmeselect.capa"
               class="rounded-borders"
               error-src ='http://localhost/storage/holdplace.jpeg'
             />
