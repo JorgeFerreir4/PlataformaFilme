@@ -26,10 +26,33 @@ class AuthController extends Controller
             }
         }
         else{
-            return response()->json(['error' => 'Usuário não encontrado'], 404)
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
         }
 
         
 
+    }
+
+    public function cadastro(Request $request){
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $name = $request->input('name');
+        
+        
+        $validate = $request->validate([
+            'email' => ['required','email:rfc,dns'],
+            'password' => ['required','min:8'],
+            'name' => ['required','min:3']
+        ]);
+
+        $verificaremail = User::where('email', $email)->exists();
+        if($verificaremail == True){
+            return response()->json(['erro'=>'Usuaŕio já cadastrado'], 400);
+        }
+
+        $validate['password'] = Hash::make($validate['password']);
+        $user = User::create($validate);
+        return response()->json(['message' => 'Usuário cadastrado com sucesso.'], 201);
     }
 }

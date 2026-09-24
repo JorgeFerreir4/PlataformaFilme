@@ -1,243 +1,318 @@
 <template>
-  <q-page class="bg-grey-10 q-pa-lg">
+
+  <q-page class="pagina-filmes">
 
     <div class="container">
 
       <!-- CABEÇALHO -->
-      <div class="q-mb-xl">
-        <div class="text-h3 text-weight-bold text-white">
-          FILMES
+      <header class="cabecalho">
+
+        <div class="cabecalho-esquerda">
+
+          <div class="marca-filmes">
+            FILMES
+          </div>
+
+          <div class="subtitulo-filmes">
+            Descubra, explore e encontre seu próximo filme favorito.
+          </div>
+
         </div>
 
-        <div class="text-subtitle1 text-grey-5">
-          Lista de filmes cadastrados no sistema
+        <div class="cabecalho-direita">
+
+          <q-btn
+            flat
+            no-caps
+            color="white"
+            class="usuario-btn"
+            @click="$router.push('/login')"
+          >
+            <q-avatar size="36px" class="q-mr-sm">
+              <q-icon name="person" size="24px" />
+            </q-avatar>
+
+            <span>Entrar</span>
+          </q-btn>
+
         </div>
-      </div>
+
+      </header>
+
 
       <!-- FILTROS -->
-      <q-card
-        flat
-        bordered
-        class="bg-grey-9 q-mb-lg"
-      >
-        <q-card-section>
+      <section class="filtros-linha">
 
-          <div class="text-h6 text-white q-mb-md">
-            Pesquisar filmes
-          </div>
+        <q-card
+          flat
+          class="filtro-card"
+        >
 
-          <div class="row q-col-gutter-md">
+          <q-card-section>
 
-            <!-- PESQUISA -->
-            <div class="col-12 col-md-4">
-              <q-input
-                v-model="search"
-                filled
-                debounce="700"
-                type="search"
-                color="light-blue-3"
-                dark
-                label="Pesquisar filme"
-              >
-                <template #prepend>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
+            <div class="filtros">
+
+              <!-- PESQUISA -->
+              <div class="filtro-pesquisa">
+
+                <q-input
+                  v-model="search"
+                  filled
+                  dense
+                  debounce="700"
+                  type="search"
+                  dark
+                  color="teal"
+                  label="Pesquisar filme"
+                  class="campo-filtro"
+                >
+
+                  <template #prepend>
+                    <q-icon name="search" />
+                  </template>
+
+                </q-input>
+
+              </div>
+
+
+              <!-- ANO -->
+              <div class="filtro-ano">
+
+                <q-select
+                  v-model="ano"
+                  filled
+                  dense
+                  dark
+                  clearable
+                  :options="anos"
+                  label="Ano"
+                  color="teal"
+                  class="campo-filtro"
+                />
+
+              </div>
+
+
+              <!-- GÊNEROS -->
+              <div class="filtro-generos">
+
+                <q-select
+                  v-model="generos"
+                  filled
+                  dense
+                  dark
+                  use-input
+                  use-chips
+                  multiple
+                  clearable
+                  :max-values="3"
+                  input-debounce="700"
+                  label="Gêneros"
+                  color="teal"
+                  :options="opcoesGeneros"
+                  class="campo-filtro"
+                />
+
+              </div>
+
+
+              <!-- LIMPAR -->
+              <div class="filtro-botao">
+
+                <q-btn
+                  flat
+                  icon="filter_alt_off"
+                  label="Limpar"
+                  class="botao-limpar"
+                  @click="limparFiltros"
+                />
+
+              </div>
+
             </div>
 
-            <!-- ANO -->
-            <div class="col-12 col-sm-6 col-md-2">
-              <q-select
-                v-model="ano"
-                filled
-                dark
-                clearable
-                :options="anos"
-                label="Ano"
-                color="light-blue-3"
-              />
-            </div>
+          </q-card-section>
 
-            <!-- GÊNEROS -->
-            <div class="col-12 col-md-4">
-              <q-select
-                v-model="generos"
-                filled
-                dark
-                use-input
-                use-chips
-                multiple
-                clearable
-                :max-values="3"
-                input-debounce="700"
-                label="Gêneros"
-                color="light-blue-3"
-                :options="opcoesGeneros"
-              />
-            </div>
+        </q-card>
 
-            <!-- LIMPAR FILTROS -->
-            <div class="col-12 col-md-2 flex items-center">
-              <q-btn
-                outline
-                color="white"
-                icon="filter_alt_off"
-                label="Limpar"
-                class="full-width"
-                @click="limparFiltros"
-              />
-            </div>
 
-          </div>
-
-        </q-card-section>
-      </q-card>
-
-      <!-- BOTÃO ADICIONAR -->
-      <div class="row justify-end q-mb-lg">
+        <!-- ADICIONAR -->
         <q-btn
           rounded
+          unelevated
           color="teal"
           icon="add"
-          label="Adicionar Filme"
-          size="md"
+          label="Adicionar filme"
+          class="botao-adicionar"
           @click="abrirAdicionar"
         />
-      </div>
+
+      </section>
+
 
       <!-- CARREGANDO -->
       <div
         v-if="carregando"
-        class="row justify-center q-my-xl"
+        class="estado-carregando"
       >
+
         <q-spinner
-          color="primary"
-          size="50px"
+          color="teal"
+          size="48px"
         />
+
+        <div class="texto-carregando">
+          Carregando filmes...
+        </div>
+
       </div>
+
 
       <!-- NENHUM FILME -->
       <q-card
         v-else-if="filmes.length === 0"
         flat
-        class="bg-grey-9 text-center q-pa-xl"
+        class="estado-vazio"
       >
-        <q-icon class="inline-block"
+
+        <q-icon
           name="movie_off"
-          size="70px"
-          color="grey-6"
+          size="72px"
+          color="grey-7"
         />
 
-        <div class="text-h6 text-grey-5 q-mt-md">
+        <div class="titulo-vazio">
           Nenhum filme encontrado
         </div>
 
-        <div class="text-caption text-grey-6">
+        <div class="descricao-vazio">
           Tente alterar os filtros ou cadastre um novo filme.
         </div>
+
       </q-card>
+
 
       <!-- FILMES -->
       <div
         v-else
-        class="row q-col-gutter-lg"
+        class="grid-filmes"
       >
 
         <div
           v-for="filme in filmes"
           :key="filme.hashid"
-          class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2-4"
+          class="coluna-filme"
         >
 
-          <q-card @click="abrirPropriedades(filme)"
-            class="filme-card bg-grey-9 text-white"
+          <q-card
+            class="filme-card"
             flat
-            bordered
+            @click="abrirPropriedades(filme)"
           >
 
             <!-- CAPA -->
-            <q-img
-              :src="filme.capa"
-              :ratio="2 / 3"
-              loading="lazy"
-              spinner-color="primary"
-              class="filme-capa"
-            >
-            <!-- Exibido automaticamente se :src falhar (404/erro) -->
-              <template v-slot:error>
-                <q-img
-                  src="https://m.media-amazon.com/images/I/21cOE-lrhBL._AC_UF1000,1000_QL80_.jpg"
-                  :ratio="2 / 3"
-                />
-              </template>
-              <div class="absolute-bottom text-subtitle2">
+            <div class="capa-container">
+
+              <q-img
+                :src="filme.capa"
+                :ratio="2 / 3"
+                loading="lazy"
+                spinner-color="teal"
+                class="filme-capa"
+              />
+
+              <div class="capa-overlay"></div>
+
+              <div class="ano-filme">
                 {{ filme.ano }}
               </div>
-            </q-img>
+
+              <div class="icone-play">
+                <q-icon
+                  name="play_arrow"
+                  size="32px"
+                />
+              </div>
+
+            </div>
+
 
             <!-- INFORMAÇÕES -->
-            <q-card-section>
+            <q-card-section class="informacoes-filme">
 
               <div
-                class="text-h6 text-weight-bold ellipsis"
+                class="titulo-filme"
                 :title="filme.titulo"
               >
                 {{ filme.titulo }}
               </div>
 
-              <div class="text-caption text-grey-5 q-mt-xs">
+              <div class="diretor-filme">
                 {{ filme.diretor }}
               </div>
 
-              <div class="text-caption text-grey-6 q-mt-sm">
+              <div class="genero-filme">
                 {{ filme.genero }}
               </div>
 
             </q-card-section>
 
+
             <!-- AÇÕES -->
-              <q-card-actions
-                align="around"
-                class="q-pb-md"
+            <q-card-actions
+              class="acoes-filme"
+              align="right"
+            >
+
+              <q-btn
+                flat
+                round
+                size="sm"
+                color="white"
+                icon="visibility"
+                @click.stop="abrirPropriedades(filme)"
               >
 
-                <q-btn
-                  flat
-                  round
-                  color="white"
-                  icon="visibility"
-                  @click.stop="abrirPropriedades(filme)"
-                >
-                  <q-tooltip>
-                    Ver detalhes
-                  </q-tooltip>
-                </q-btn>
+                <q-tooltip>
+                  Ver detalhes
+                </q-tooltip>
 
-                <q-btn
-                  flat
-                  round
-                  color="primary"
-                  icon="edit"
-                  @click.stop="abrirEditar(filme)"
-                >
-                  <q-tooltip>
-                    Editar
-                  </q-tooltip>
-                </q-btn>
+              </q-btn>
 
-                <q-btn
-                  flat
-                  round
-                  color="negative"
-                  icon="delete"
-                  @click.stop="abrirExcluir(filme)"
-                >
-                  <q-tooltip>
-                    Excluir
-                  </q-tooltip>
-                </q-btn>
 
-              </q-card-actions>
+              <q-btn
+                flat
+                round
+                size="sm"
+                color="teal"
+                icon="edit"
+                @click.stop="abrirEditar(filme)"
+              >
+
+                <q-tooltip>
+                  Editar
+                </q-tooltip>
+
+              </q-btn>
+
+
+              <q-btn
+                flat
+                round
+                size="sm"
+                color="negative"
+                icon="delete"
+                @click.stop="abrirExcluir(filme)"
+              >
+
+                <q-tooltip>
+                  Excluir
+                </q-tooltip>
+
+              </q-btn>
+
+            </q-card-actions>
 
           </q-card>
 
@@ -245,24 +320,27 @@
 
       </div>
 
+
       <!-- PAGINAÇÃO -->
       <div
         v-if="totalPaginas > 1"
-        class="row justify-center q-mt-xl"
+        class="paginacao-container"
       >
+
         <q-pagination
           v-model="paginacao.page"
           :max="totalPaginas"
           direction-links
-          push
           boundary-links
-          color="teal"
-          active-design="push"
-          active-color="orange"
+          color="grey-7"
+          active-color="teal"
+          active-design="unelevated"
         />
+
       </div>
 
     </div>
+
 
     <!-- ADICIONAR -->
     <Adicionar
@@ -272,6 +350,7 @@
       @salvarFilme="EnviarFilme"
       @filmeSalvou="FilmeSalvou = false"
     />
+
 
     <!-- EDITAR -->
     <Editar
@@ -283,6 +362,7 @@
       @filmeSalvou="FilmeSalvou = false"
     />
 
+
     <!-- EXCLUIR -->
     <dialogdelete
       :OpenDialogDelete="OpenDialogDelete"
@@ -290,6 +370,7 @@
       @cancelar="OpenDialogDelete = false"
       @excluir="excluirFilme"
     />
+
 
     <!-- PROPRIEDADES -->
     <Propriedades
@@ -299,6 +380,7 @@
     />
 
   </q-page>
+
 </template>
 
 
@@ -306,6 +388,8 @@
 
 import { ref, onMounted, watch } from 'vue'
 import { useQuasar, Dark } from 'quasar'
+
+import '@/css/filmes.css'
 
 import { api } from '../boot/axios'
 
@@ -394,10 +478,11 @@ const anos = Array.from(
 /* PAGINAÇÃO */
 
 const paginacao = ref({
-  page:1
+  page: 1
 })
 
 const totalPaginas = ref()
+
 
 /* BUSCAR FILMES */
 
@@ -407,7 +492,8 @@ async function buscarFilmes() {
 
     carregando.value = true
 
-    const response = await api.get('/filmes',
+    const response = await api.get(
+      '/filmes',
       {
         params: {
           page: paginacao.value.page
@@ -459,10 +545,6 @@ async function buscarFilmesComFiltro() {
       }
     )
 
-    /*
-     * Se a API retornar uma resposta paginada:
-     */
-
     if (response.data?.data) {
 
       filmes.value = response.data.data
@@ -470,10 +552,6 @@ async function buscarFilmesComFiltro() {
       totalPaginas.value = response.data.last_page ?? 1
 
     } else {
-
-      /*
-       * Caso a API retorne diretamente um array.
-       */
 
       filmes.value = response.data
 
@@ -768,9 +846,8 @@ watch(
       ano.value !== null ||
       generos.value.length > 0
 
-    console.log('pagina no watch', paginacao.value.page);
     if (possuiFiltro) {
-    
+
       await buscarFilmesComFiltro()
 
     } else {
@@ -792,87 +869,3 @@ onMounted(() => {
 })
 
 </script>
-
-
-<style scoped>
-
-.container {
-  width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-
-/* CARDS */
-
-.filme-card {
-  height: 100%;
-  overflow: hidden;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.filme-card:hover {
-  transform: translateY(-6px);
-
-  box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.5);
-}
-
-
-.filme-capa {
-  background: #222;
-}
-
-
-/*
-| 5 FILMES POR LINHA
-*/
-
-.col-xl-2-4 {
-  width: 20%;
-}
-
-
-/*
-| RESPONSIVIDADE
-*/
-
-@media (max-width: 1199px) {
-
-  .col-xl-2-4 {
-    width: 25%;
-  }
-
-}
-
-
-@media (max-width: 899px) {
-
-  .col-xl-2-4 {
-    width: 33.3333%;
-  }
-
-}
-
-
-@media (max-width: 599px) {
-
-  .col-xl-2-4 {
-    width: 50%;
-  }
-
-}
-
-
-@media (max-width: 399px) {
-
-  .col-xl-2-4 {
-    width: 100%;
-  }
-
-}
-
-</style>

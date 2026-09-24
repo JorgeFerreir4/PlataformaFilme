@@ -14,6 +14,11 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
+Route::middleware('auth:api')->group(function () {
+    // rotas protegidas
+});
+
 // Listar filmes
 Route::get('/filmes', [FilmeController::class, 'index']);
 
@@ -27,5 +32,7 @@ Route::put('/filmes/{hashid}', [FilmeController::class, 'update']);
 Route::delete('/filmes/{hashid}', [FilmeController::class, 'destroy']);
 
 Route::post('/filmes/filtro', [FilmeController::class, 'filtrar']);
+
+Route::post('cadastrar', [AuthController::class, 'cadastro']);
 
 Route::post('login', [AuthController::class, 'login']);
