@@ -147,6 +147,9 @@
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from '../boot/axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const $q = useQuasar()
 
@@ -186,33 +189,45 @@ async function cadastrar() {
     return
   }
 
+  if (password.value.length < 8) {
 
+    $q.notify({
+      type: 'negative',
+      message: 'A senha deve ter pelo menos 8 caracteres.'
+    })
+
+    return
+  }
+
+  
   try {
 
-    await api.post('/register', {
-      name: nome.value,
+    await api.post('/cadastrar', {
+      nome: nome.value,
       email: email.value,
-      password: password.value,
-      password_confirmation: passwordConfirmation.value
+      senha: password.value,
     })
 
     $q.notify({
       type: 'positive',
-      message: 'Conta criada com sucesso.'
+      message: 'Conta criada com sucesso. Agora faça login'
     })
 
-    $router.push('/login')
+    router.push('/login')
 
   } catch (error) {
+    if(error.response){
+        let erros = error.response?.data.errors
+        for(const erro in erros){
 
-    console.log(error)
-    console.log(error.response?.data)
+          for(const erro2 of erros[erro]){
 
-    $q.notify({
-      type: 'negative',
-      message: 'Não foi possível criar a conta.'
-    })
-
+            $q.notify({
+            type: 'negative',
+            message: erro2   })
+          }
+        }
+    }
   }
 
 }

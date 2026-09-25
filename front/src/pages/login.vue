@@ -124,7 +124,7 @@ async function login() {
 
     const response = await api.post('/login', {
       email: email.value,
-      password: password.value
+      senha: password.value
     })
 
     console.log(response.data)
@@ -136,16 +136,17 @@ async function login() {
 
   } catch (error) {
 
-    console.log(error)
-    console.log(error.response?.data)
+    if(error.response?.data){
+      let erro = error.response?.data.error
 
-    $q.notify({
-      type: 'negative',
-      message: 'E-mail ou senha inválidos.'
-    })
+      $q.notify({
+        type: 'negative',
+        message: erro
+      })
 
   }
 
+  }
 }
 
 
