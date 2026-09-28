@@ -578,7 +578,45 @@
 
   font-size: 13px;
 }
+.usuario-btn {
+  padding: 4px 6px;
+  background: transparent;
+}
 
+.usuario-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.usuario-avatar {
+  background: rgba(255, 255, 255, 0.10);
+  color: white;
+}
+
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 8px;
+  line-height: 1.1;
+}
+
+.usuario-nome {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.usuario-status {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 3px;
+}
+
+.usuario-seta {
+  opacity: 0.6;
+}
+.menu-header {
+  padding: 14px 16px;
+}
 
 /* =========================================================
    PAGINAÇÃO

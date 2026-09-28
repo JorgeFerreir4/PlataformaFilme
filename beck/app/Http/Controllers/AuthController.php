@@ -76,4 +76,15 @@ class AuthController extends Controller
         $user = User::create($validate);
         return response()->json(['message' => 'Usuário cadastrado com sucesso.'], 201);
     }
+
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return response()->json([
+            'message' => 'Logout realizado com sucesso.'
+        ])->withoutCookie('token');
+    }
 }
+

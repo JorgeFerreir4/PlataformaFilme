@@ -110,6 +110,10 @@
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from '../boot/axios'
+import { useRouter } from 'vue-router'
+
+
+const router = useRouter()
 
 const $q = useQuasar()
 
@@ -117,6 +121,9 @@ const email = ref('')
 const password = ref('')
 const mostrarSenha = ref(false)
 
+
+
+const emit = defineEmits(['login'])
 
 async function login() {
 
@@ -133,6 +140,16 @@ async function login() {
       type: 'positive',
       message: 'Login realizado com sucesso.'
     })
+    
+    //busca o ususario
+    const usuario = await api.get('/user')
+    const usuariologado= usuario.data
+    console.log('loginlogado',usuariologado)
+    
+
+    router.push('/')
+
+    emit('login')
 
   } catch (error) {
 
@@ -150,11 +167,8 @@ async function login() {
 }
 
 
-function criarConta() {
+// Infirmaçoes do usuario
 
-  console.log('Criar conta')
-
-}
 
 </script>
 
